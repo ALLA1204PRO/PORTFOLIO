@@ -1,0 +1,509 @@
+{
+	"info": {
+		"_postman_id": "b8eba46b-a7f7-4307-9335-7371cb2b16ce",
+		"name": "AGENTAPP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34140929"
+	},
+	"item": [
+		{
+			"name": "аутентификация",
+			"item": [
+				{
+					"name": "получение токена",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responsejson = pm.response.json()\r",
+									"console.log(responsejson)\r",
+									"var token = responsejson.token\r",
+									"pm.environment.set(\"token\", token);\r",
+									"pm.collectionVariables.set(\"token\", token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/users/obtain-token",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"users",
+								"obtain-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "водитель/собственик/страховщик",
+			"item": [
+				{
+					"name": "создание водителя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responsejson = pm.response.json()\r",
+									"pm.collectionVariables.set(\"driver_id\", responsejson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "username",
+								"value": "{{username}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "password",
+								"value": "{{password}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Алла\",\r\n    \"last_name\": \"Ревина\",\r\n    \"patronymic\": \"Александровна\",\r\n    \"birth_date\": \"1990-01-01\",\r\n    \"driving_experience_started\": \"2010-10-10\",\r\n    \"driver_licenses\": [\r\n        {\r\n            \"credential_type\": \"DRIVER_LICENSE\",\r\n            \"number\": \"012345\",\r\n            \"series\": \"1234\",\r\n            \"issue_date\": \"2010-10-10\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/drivers",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "СОЗДАНИЕ СОБСТВЕНИКА",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responsejson = pm.response.json()\r",
+									"pm.collectionVariables.set(\"owner_id\", responsejson.person);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"last_name\": \"Ревина\",\r\n    \"first_name\": \"Алла\",\r\n    \"gender\": \"F\",\r\n    \"patronymic\": \"Александровна\",\r\n    \"birth_date\": \"1990-01-01\",\r\n    \"credential\": [\r\n        {\r\n            \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\r\n            \"issue_date\": \"2017-03-08\",\r\n            \"issue_point\": \"УФМС\",\r\n            \"issue_point_code\": \"123-456\",\r\n            \"number\": \"123456\",\r\n            \"series\": \"1234\"\r\n        }\r\n    ],\r\n    \"address\": [\r\n        {\r\n            \"address_query\": \"г Санкт-Петербург, г Коммунар, ул Пионерская, д 1 к 1, кв 1\",\r\n            \"address_type\": \"LEGAL_ADDRESS\",\r\n            \"region_kladr_id\": \"7800000000000\",\r\n            \"city_kladr_id\": \"7800000600000\"\r\n        },\r\n        {\r\n            \"address_query\": \"г Санкт-Петербург, г Коммунар, ул Пионерская, д 1 к 1, кв 1\",\r\n            \"address_type\": \"ACTUAL_ADDRESS\",\r\n            \"region_kladr_id\": \"7800000000000\",\r\n            \"city_kladr_id\": \"7800000600000\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/owners/natural_persons",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								"owners",
+								"natural_persons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "создание страхователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responsejson = pm.response.json()\r",
+									"pm.collectionVariables.set(\"insurant_id\", responsejson.person);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"last_name\": \"Ревина\",\r\n    \"first_name\": \"Алла\",\r\n    \"patronymic\": \"Александровна\",\r\n    \"birth_date\": \"1990-01-01\",\r\n    \"credential\": [\r\n        {\r\n            \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\r\n            \"issue_date\": \"2010-10-10\",\r\n            \"issue_point\": \"УФМС\",\r\n            \"issue_point_code\": \"123-456\",\r\n            \"number\": \"123456\",\r\n            \"series\": \"1234\"\r\n        }\r\n    ],\r\n    \"address\": [\r\n        {\r\n            \"address_query\": \"г Санкт-Петербург, г Коммунар, ул Пионерская, д 1 к 1, кв 1\",\r\n            \"address_type\": \"LEGAL_ADDRESS\",\r\n            \"region_kladr_id\": \"7800000000000\",\r\n            \"city_kladr_id\": \"7800000600000\"\r\n        },\r\n        {\r\n            \"address_query\": \"г Санкт-Петербург, г Коммунар, ул Пионерская, д 1 к 1, кв 1\",\r\n            \"address_type\": \"ACTUAL_ADDRESS\",\r\n            \"region_kladr_id\": \"7800000000000\",\r\n            \"city_kladr_id\": \"7800000600000\"\r\n        }\r\n    ],\r\n    \"contact\": [\r\n    {\r\n        \"contact_type\": \"PHONE\",\r\n        \"data\": \"+79881234556\",\r\n        \"comment\": null\r\n    },\r\n    {\r\n        \"contact_type\": \"EMAIL\",\r\n        \"data\": \"test125@mail.ru\",\r\n        \"comment\": null\r\n    }\r\n]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/insurants/natural_persons",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								"insurants",
+								"natural_persons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "создание автомобиля",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responsejson = pm.response.json()\r",
+									"pm.collectionVariables.set(\"car_id\", responsejson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"car_model_id\": 864026180,\r\n  \"engine_power\": 211,\r\n  \"chassis_number\": 4567,\r\n  \"car_body_number\": 1234,\r\n  \"vin_number\": \"WAUZZZ8T4BA037241\",\r\n  \"number_plate\": \"Р904МХ178\",\r\n  \"manufacturing_year\": 2010,\r\n  \"max_mass\": null,\r\n  \"credential\": [\r\n    {\r\n      \"credential_type\": \"VEHICLE_REGISTRATION\",\r\n      \"issue_date\": \"2010-11-01\",\r\n      \"number\": \"267461\",\r\n      \"series\": \"78УН\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/v3/insured_objects/cars",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"insured_objects",
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Объединение субъектов и объектов страхования в одну сущность “объект страхования”",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responsejson = pm.response.json()\r",
+									"pm.collectionVariables.set(\"insured__object_id\", responsejson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"drivers\": [\r\n        \"{{driver_id}}\"\r\n    ],\r\n    \"owner\": \"{{owner_id}}\",\r\n    \"car\": \"{{car_id}}\",\r\n    \"insurant\": \"{{insurant_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создание договора",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responsejson = pm.response.json()\r",
+									"pm.collectionVariables.set(\"agreement_id\", responsejson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"valid_from\": \"2024-08-29\",\r\n    \"valid_to\": \"2025-08-28\",\r\n    \"insurance_period\": 8,\r\n    \"target_of_using\": 11,\r\n    \"drivers_ids\": [\r\n        \"{{driver_id}}\"\r\n    ],\r\n    \"is_car_without_registration\": false,\r\n    \"engine_power\": 211,\r\n    \"has_car_trailer\": false,\r\n    \"car_type\": \"B\",\r\n    \"owner_registration\": {\r\n        \"address_query\": \"188320, Российская Федерация, обл Ленинградская, р-н Гатчинский, г Коммунар, ул Пионерская, д. 1, к. 1, кв. 1\"\r\n    }\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/v3/agreements/calculations",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"agreements",
+								"calculations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "обновление договора",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"insured_object\":\"{{insured__object_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение полного расчёт по СК",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/TEST_COMPANY",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"TEST_COMPANY"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "Token {{token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "http_schema",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "host",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "api_version",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "driver_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "car_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "owner_id",
+			"value": ""
+		},
+		{
+			"key": "insurant_id",
+			"value": ""
+		},
+		{
+			"key": "insured__object_id",
+			"value": ""
+		},
+		{
+			"key": "agreement_id",
+			"value": ""
+		}
+	]
+}
