@@ -1,0 +1,71 @@
+Задание
+Написать два SQL запроса для выполнения задания:
+1) Вывести среднюю заработную плату всех тестировщиков на проекте “ПУМЧД”.
+Ответ должен содержать столбцы:
+ Название проекта;
+ Название должности;
+ Средняя заработная плата.
+2) Вывести всех работников, которые работают сразу на нескольких проектах.
+Ответ должен содержать следующие столбцы:
+ Имя и фамилия сотрудника;
+ Название должности.
+
+CREATE table employee(
+  employee_id int PRIMARY KEY,
+  first_name VARCHAR NOT NULL, 
+  last_name VARCHAR NOT NULL
+  );
+  
+INSERT INTO employee (employee_id, first_name, last_name) VALUES
+(1, 'John', 'Filan'),
+(2, 'Adam', 'Scolan'),
+(3, 'Lisa', 'McCafety');
+
+CREATE table projects 
+(project_id int PRIMARY KEY, 
+ project_name VARCHAR(15) NOT NULL
+);
+
+INSERT INTO projects (project_id, project_name) VALUES
+(1, 'ПУМЧД'),
+(2, 'КРАНЧ'),
+(3, 'СКРУДЖ');
+
+CREATE table titles (Id int PRIMARY KEY NOT NULL, 
+                     titel_name VARCHAR(15) NOT NULL);
+INSERT INTO titles (Id, titel_name) VALUES
+(1, 'admin'),
+(2, 'lead'),
+(3, 'test');
+
+CREATE table positions (
+Id int PRIMARY KEY NOT NULL,
+employee_id int NOT NULL,
+project_id int NOT NULL,
+title_id int NOT NULL,
+salary int NOT NULL
+  );
+  
+  INSERT INTO positions (Id, employee_id, project_id, title_id, salary) VALUES
+(1, 1, 2, 1, 650),
+(2, 3, 3, 2, 800),
+(3, 2, 1, 3, 700);
+
+SELECT projects.project_name, titles.titel_name, AVG(positions.salary) AS "Средняя заработная плата"
+FROM positions
+JOIN projects ON positions.project_id = projects.project_id
+JOIN titles ON positions.title_id = titles.Id
+WHERE projects.project_name = 'ПУМЧД' AND titles.titel_name = 'test'
+GROUP BY projects.project_name, titles.titel_name;
+
+SELECT e.first_name, e.last_name, t.titel_name
+FROM employee e
+JOIN positions p ON e.employee_id = p.employee_id
+JOIN titles t ON p.title_id = t.Id
+WHERE p.employee_id IN (
+  SELECT employee_id
+  FROM positions
+  GROUP BY employee_id
+  HAVING COUNT(DISTINCT project_id) > 1
+);
+

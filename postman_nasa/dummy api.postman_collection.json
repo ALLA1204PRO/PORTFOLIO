@@ -1,0 +1,639 @@
+{
+	"info": {
+		"_postman_id": "4e04e084-241e-438e-827d-1f2241b57e40",
+		"name": "dummy api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34140929"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "получение пользователей",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/user",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "limit paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dummyapi.io/data/v1/user?page=1&limit=10",
+							"protocol": "https",
+							"host": [
+								"dummyapi",
+								"io"
+							],
+							"path": [
+								"data",
+								"v1",
+								"user"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "создание пользователя",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let user_id = bodyres.id \r",
+									"console.log(user_id)\r",
+									"pm.collectionVariables.set(\"userid\", user_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Alla\",\r\n    \"lastName\": \"Revina\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/user/create",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "изменения данных пользователя",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Allatest\",\r\n    \"lastName\": \"Revinatest\",\r\n    \"phone\": 1234567\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/user/{{userid}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								"{{userid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "удаление пользователя",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://dummyapi.io/data/v1/user/:id",
+							"protocol": "https",
+							"host": [
+								"dummyapi",
+								"io"
+							],
+							"path": [
+								"data",
+								"v1",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "создание поста",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let post_id = bodyres.id \r",
+									"console.log(post_id)\r",
+									"pm.collectionVariables.set(\"postid\", post_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"я работаю дома все отзывы\",\r\n    \"image\": \"текст\",\r\n    \"likes\": \"5\",\r\n    \"tags\": [\r\n        \"вб,отзывы\"\r\n    ],\r\n    \"owner\": \"{{userid}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/post/create",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"post",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let post_id = bodyres.id \r",
+									"console.log(post_id)\r",
+									"pm.collectionVariables.set(\"postid\", post_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/post/:id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"post",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{postid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List By User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let user_id = bodyres.id \r",
+									"console.log(user_id)\r",
+									"pm.collectionVariables.set(\"userid\", user_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/user/:id/post",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								":id",
+								"post"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List By Tag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let tags_id = bodyres.id \r",
+									"console.log(tags_id)\r",
+									"pm.collectionVariables.set(\"tags_id\", tags_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/tag/:id/post",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"tag",
+								":id",
+								"post"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/post",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "Create Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let comment_id = bodyres.id \r",
+									"console.log(comment_id)\r",
+									"pm.collectionVariables.set(\"commentid\", comment_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"я изучаю постман и безбожно туплю\",\r\n    \"owner\": \"{{userid}}\",\r\n    \"post\": \"{{postid}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/comment/create",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"comment",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List By User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let user_id = bodyres.id \r",
+									"console.log(user_id)\r",
+									"pm.collectionVariables.set(\"userid\", user_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/user/:id/comment",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"user",
+								":id",
+								"comment"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{userid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List By Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let bodyres = pm.response.json()\r",
+									"console.log(bodyres)\r",
+									"let post_id = bodyres.id \r",
+									"console.log(post_id)\r",
+									"pm.collectionVariables.set(\"postid\", post_id );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/post/:id/comment",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"post",
+								":id",
+								"comment"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{postid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/comment",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"comment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://dummyapi.io/data/v1"
+		},
+		{
+			"key": "userid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "postid",
+			"value": ""
+		},
+		{
+			"key": "tagsid",
+			"value": ""
+		},
+		{
+			"key": "commentid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tags_id",
+			"value": ""
+		}
+	]
+}
